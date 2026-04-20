@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>About & Contact</title>
+  <link rel="stylesheet" href="about-contact.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="index.html">Home</a>
+  <a href="#about">Tentang</a>
+  <a href="#contact">Kontak</a>
+</nav>
+
+<div class="container">
+
+  <!-- ABOUT -->
+  <section id="about">
+    <h1>Tentang Kami</h1>
+    <p>
+      Kami adalah brand fashion lokal yang menyediakan produk berkualitas tinggi 
+      dengan desain modern dan harga terjangkau.
+    </p>
+
+    <div class="about-box">
+      <div>
+        <h3>Visi</h3>
+        <p>Menjadi brand fashion lokal terbaik di Indonesia.</p>
+      </div>
+      <div>
+        <h3>Misi</h3>
+        <p>Memberikan produk berkualitas dengan harga terjangkau.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <h1>Kontak Kami</h1>
+
+    <div class="contact-box">
+      <p>Email: toko@email.com</p>
+      <p>WhatsApp: 08123456789</p>
+      <p>Alamat: Yogyakarta, Indonesia</p>
+    </div>
+
+    <h3>Kirim Pesan</h3>
+    <form id="contact-form">
+      <input type="text" placeholder="Nama" required>
+      <input type="email" placeholder="Email" required>
+      <textarea placeholder="Pesan" required></textarea>
+      <button type="submit">Kirim</button>
+    </form>
+
+    <p id="success-msg" class="hidden">✅ Pesan berhasil dikirim!</p>
+  </section>
+
+</div>
+
+<script>
+const form = document.getElementById("contact-form");
+const msg = document.getElementById("success-msg");
+
+form.addEventListener("submit", function(e) {
+  e.preventDefault();
+  msg.classList.remove("hidden");
+  form.reset();
+});
+</script>
+
+</body>
+</html>
