@@ -1,57 +1,28 @@
 // ================= DATA =================
 const products = [
-  {
-    id: 1,
-    name: "Hoodie Hitam",
-    price: 150000,
-    image: "img/hoodie.jpg",
-    desc: "Hoodie premium bahan fleece tebal dan nyaman.",
-    stock: 10
-  },
-  {
-    id: 2,
-    name: "Kaos Oversize",
-    price: 90000,
-    image: "img/kaos.jpg",
-    desc: "Kaos oversized nyaman untuk sehari-hari.",
-    stock: 15
-  },
-  { id: 3, name: "Celana Cargo", price: 120000, image: "img/celana.jpg", desc: "Celana cargo berkualitas tinggi", stock: 10 },
-  { id: 4, name: "Topi", price: 50000, image: "img/topi.jpg", desc: "Topi premium dengan harga terjangkau", stock: 5 },
-  { id: 5, name: "Jaket Denim", price: 200000, image: "img/jaket.jpg", desc:"Jaket denim yang stylish", stock: 13 }
+  { id: 1, name: "Hoodie Hitam", price: 150000, image: "img/hoodie.jpg", desc: "Hoodie premium bahan fleece", stock: 10 },
+  { id: 2, name: "Kaos Oversize", price: 90000, image: "img/kaos.jpg", desc: "Kaos nyaman berwarna hitam cocok untuk kegiatan sehari-hari", stock: 15 },
+  { id: 3, name: "Celana Cargo", price: 120000, image: "img/celana.jpg", desc: "Celana keren", stock: 10 },
+  { id: 4, name: "Topi", price: 50000, image: "img/topi.jpg", desc: "Topi branded stylish", stock: 5 },
+  { id: 5, name: "Jaket Denim", price: 200000, image: "img/jaket.jpg", desc: "Jaket kece berbahan denim", stock: 13 }
 ];
 
 let cart = [];
 
-// ================= DOM =================
-const productList = document.getElementById("product-list");
-const cartList = document.getElementById("cart-list");
-const totalEl = document.getElementById("total");
+// ================= FORMAT =================
+const formatRupiah = n => n.toLocaleString("id-ID");
 
-// ================= MODAL MODULE =================
+// ================= MODAL =================
 const Modal = {
   el: document.getElementById("modal"),
-  img: document.getElementById("modal-img"),
-  name: document.getElementById("modal-name"),
-  desc: document.getElementById("modal-desc"),
-  stock: document.getElementById("modal-stock"),
-  closeBtn: document.getElementById("closeModal"),
 
-  init() {
-    this.closeBtn.addEventListener("click", () => this.close());
-
-    window.addEventListener("click", (e) => {
-      if (e.target === this.el) this.close();
-    });
-  },
-
-  open(product) {
+  open(p) {
+    console.log(p);
     this.el.classList.remove("hidden");
-
-    this.img.src = product.image;
-    this.name.textContent = product.name;
-    this.desc.textContent = product.desc;
-    this.stock.textContent = `Stok: ${product.stock}`;
+    document.getElementById("modal-img").src = p.image;
+    document.getElementById("modal-name").textContent = p.name;
+    document.getElementById("modal-desc").textContent = p.desc;
+    document.getElementById("modal-stock").textContent = `Stok: ${p.stock}`;
   },
 
   close() {
@@ -59,81 +30,73 @@ const Modal = {
   }
 };
 
-// ================= FORMAT =================
-function formatRupiah(number) {
-  return number.toLocaleString("id-ID");
+// ================= POPUP =================
+function showPopup(msg) {
+  document.getElementById("popup-text").innerHTML = msg;
+  document.getElementById("popup").classList.remove("hidden");
 }
 
-// ================= PRODUCT =================
+function closePopup() {
+  document.getElementById("popup").classList.add("hidden");
+}
+
+// ================= PRODUCTS =================
 function renderProducts() {
-  productList.innerHTML = "";
+  const list = document.getElementById("product-list");
+  list.innerHTML = "";
 
-  products.forEach(product => {
-    const card = document.createElement("div");
-    card.classList.add("card");
+  products.forEach(p => {
+    const el = document.createElement("div");
+    el.className = "card";
 
-    card.innerHTML = `
-      <img src="${product.image}" class="product-img">
-      <h3>${product.name}</h3>
-      <p>Rp ${formatRupiah(product.price)}</p>
+    el.innerHTML = `
+      <img src="${p.image}" class="product-img">
+      <h3>${p.name}</h3>
+      <p>Rp ${formatRupiah(p.price)}</p>
       <button>Tambah</button>
     `;
 
-    // klik gambar → modal
-    card.querySelector(".product-img")
-      .addEventListener("click", () => Modal.open(product));
+    el.querySelector("img").onclick = () => Modal.open(p);
+    el.querySelector("button").onclick = () => addToCart(p.id);
 
-    // tambah cart
-    card.querySelector("button")
-      .addEventListener("click", () => addToCart(product.id));
-
-    productList.appendChild(card);
+    list.appendChild(el);
   });
 }
 
 // ================= CART =================
 function addToCart(id) {
-  const product = products.find(p => p.id === id);
-  cart.push(product);
-  renderCart();
-}
-
-function removeFromCart(index) {
-  cart.splice(index, 1);
+  cart.push(products.find(p => p.id === id));
   renderCart();
 }
 
 function renderCart() {
-  cartList.innerHTML = "";
+  const list = document.getElementById("cart-list");
   let total = 0;
 
-  cart.forEach((item, index) => {
+  list.innerHTML = "";
+
+  cart.forEach((item, i) => {
     const el = document.createElement("div");
-    el.classList.add("cart-item");
+    el.className = "cart-item";
 
     el.innerHTML = `
       <span>${item.name} - Rp ${formatRupiah(item.price)}</span>
       <button class="minus-btn">−</button>
     `;
 
-    el.querySelector(".minus-btn")
-      .addEventListener("click", () => removeFromCart(index));
+    el.querySelector("button").onclick = () => {
+      cart.splice(i, 1);
+      renderCart();
+    };
 
-    cartList.appendChild(el);
-
+    list.appendChild(el);
     total += item.price;
   });
 
-  totalEl.textContent = formatRupiah(total);
+  document.getElementById("total").textContent = formatRupiah(total);
 }
 
-// ================= INIT =================
-document.addEventListener("DOMContentLoaded", () => {
-  renderProducts();
-  renderCart();
-  Modal.init();
-});
-
+// ================= CHECKOUT =================
 function checkout() {
   if (cart.length === 0) {
     alert("Keranjang kosong!");
@@ -143,49 +106,38 @@ function checkout() {
   const payment = document.querySelector('input[name="payment"]:checked').value;
   const shipping = document.querySelector('input[name="shipping"]:checked').value;
 
-  let paymentMsg = "";
-  let shippingMsg = "";
+  const paymentMap = {
+    transfer: "Transfer Bank: BCA 123-456-789",
+    dana: "DANA: 0812-3456-7890",
+    ovo: "OVO: 0812-3456-7890",
+    gopay: "GoPay: 0812-3456-7890",
+    cod: "Bayar di tempat (COD)"
+  };
 
-  // PAYMENT
-  switch(payment) {
-    case "transfer":
-      paymentMsg = "Transfer Bank: BCA 123-456-789";
-      break;
-    case "dana":
-      paymentMsg = "DANA: 0812-3456-7890";
-      break;
-    case "ovo":
-      paymentMsg = "OVO: 0812-3456-7890";
-      break;
-    case "gopay":
-      paymentMsg = "GoPay: 0812-3456-7890";
-      break;
-    case "cod":
-      paymentMsg = "Bayar di tempat (COD)";
-      break;
-  }
+  const shippingMap = {
+    jne: "JNE (1-3 hari)",
+    jnt: "J&T (1-2 hari)",
+    sicepat: "SiCepat (1-2 hari)"
+  };
 
-  // SHIPPING
-  switch(shipping) {
-    case "jne":
-      shippingMsg = "JNE dipilih (1-3 hari)";
-      break;
-    case "jnt":
-      shippingMsg = "J&T dipilih (1-2 hari)";
-      break;
-    case "sicepat":
-      shippingMsg = "SiCepat dipilih (1-2 hari)";
-      break;
-  }
-
-  document.getElementById("status").classList.remove("hidden");
-
-  document.getElementById("status").innerHTML = `
-    ✅ Checkout Berhasil <br><br>
-    💳 ${paymentMsg} <br>
-    🚚 ${shippingMsg}
-  `;
+  showPopup(`
+    💳 ${paymentMap[payment]} <br>
+    🚚 ${shippingMap[shipping]}
+  `);
 
   cart = [];
   renderCart();
 }
+
+// ================= INIT =================
+document.addEventListener("DOMContentLoaded", () => {
+  renderProducts();
+  renderCart();
+
+  document.getElementById("closeModal").onclick = () => Modal.close();
+
+  window.onclick = e => {
+    if (e.target.id === "modal") Modal.close();
+    if (e.target.id === "popup") closePopup();
+  };
+});

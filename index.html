@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+  <meta charset="UTF-8">
   <title>Toko Online</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
+<!-- NAVBAR -->
 <nav class="navbar">
   <a href="#">Home</a>
   <a href="#products">Produk</a>
@@ -15,106 +16,99 @@
   <a href="about-contact.html">About</a>
 </nav>
 
-<!-- ================= HERO ================= -->
+<!-- HERO -->
 <section class="hero">
-  <div class="hero-content">
+  <div>
     <h1>Selamat Datang di Toko Kami</h1>
     <p>Temukan produk terbaik dengan harga terbaik</p>
     <a href="#products" class="btn">Lihat Produk</a>
   </div>
 </section>
 
-<!-- ================= PRODUCTS ================= -->
+<!-- PRODUCTS -->
 <section id="products" class="products-section">
   <h2>Produk Kami</h2>
-  <div class="products" id="product-list"></div>
+  <div id="product-list" class="products"></div>
 </section>
 
-<!-- ================= CART ================= -->
+<!-- CART -->
 <section id="keranjang" class="cart-section">
   <h2>Keranjang</h2>
 
   <div id="cart-list"></div>
-
   <h3>Total: Rp <span id="total">0</span></h3>
 
-  <!-- ================= CHECKOUT ================= -->
   <div class="checkout-section">
-
     <h2>Checkout</h2>
 
     <input id="nama" placeholder="Nama">
     <input id="alamat" placeholder="Alamat">
 
     <!-- SHIPPING -->
-<h3>Pilih Pengiriman</h3>
+    <h3>Pilih Pengiriman</h3>
+    <div class="shipping-options">
+      <label class="option-card">
+        <input type="radio" name="shipping" value="jne" checked>
+        <span>JNE</span>
+      </label>
+      <label class="option-card">
+        <input type="radio" name="shipping" value="jnt">
+        <span>J&T</span>
+      </label>
+      <label class="option-card">
+        <input type="radio" name="shipping" value="sicepat">
+        <span>SiCepat</span>
+      </label>
+    </div>
 
-<div class="shipping-options">
-
-  <label class="option-card">
-    <input type="radio" name="shipping" value="jne" checked>
-    <span>JNE</span>
-  </label>
-
-  <label class="option-card">
-    <input type="radio" name="shipping" value="jnt">
-    <span>J&T</span>
-  </label>
-
-  <label class="option-card">
-    <input type="radio" name="shipping" value="sicepat">
-    <span>SiCepat</span>
-  </label>
-
-</div>
     <!-- PAYMENT -->
-     <h3>Pilih Pembayaran</h3>
-<div class="payment-options">
+    <h3>Pilih Pembayaran</h3>
+    <div class="payment-options">
+      <label class="option-card">
+        <input type="radio" name="payment" value="transfer" checked>
+        <span>Transfer Bank</span>
+      </label>
+      <label class="option-card">
+        <input type="radio" name="payment" value="dana">
+        <span>DANA</span>
+      </label>
+      <label class="option-card">
+        <input type="radio" name="payment" value="ovo">
+        <span>OVO</span>
+      </label>
+      <label class="option-card">
+        <input type="radio" name="payment" value="gopay">
+        <span>GoPay</span>
+      </label>
+      <label class="option-card">
+        <input type="radio" name="payment" value="cod">
+        <span>COD</span>
+      </label>
+    </div>
 
-  <label class="option-card">
-    <input type="radio" name="payment" value="transfer" checked>
-    <span>Transfer Bank</span>
-  </label>
+    <button onclick="checkout()">Bayar Sekarang</button>
+  </div>
+</section>
 
-  <label class="option-card">
-    <input type="radio" name="payment" value="dana">
-    <span>DANA</span>
-  </label>
-
-  <label class="option-card">
-    <input type="radio" name="payment" value="ovo">
-    <span>OVO</span>
-  </label>
-
-  <label class="option-card">
-    <input type="radio" name="payment" value="gopay">
-    <span>GoPay</span>
-  </label>
-
-  <label class="option-card">
-    <input type="radio" name="payment" value="cod">
-    <span>COD</span>
-  </label>
-
-</div>
-
-<!-- ================= MODAL ================= -->
+<!-- MODAL PRODUK -->
 <div id="modal" class="modal hidden">
   <div class="modal-content">
-
-    <span id="closeModal" class="close">&times;</span>
-
+    <span id="closeModal">&times;</span>
     <img id="modal-img">
     <h2 id="modal-name"></h2>
     <p id="modal-desc"></p>
     <p id="modal-stock"></p>
-
   </div>
 </div>
 
-<button onclick="checkout()" class="checkout-btn">
-  Bayar Sekarang
-</button>
+<!-- POPUP CHECKOUT -->
+<div id="popup" class="modal hidden">
+  <div class="modal-content">
+    <h2>✅ Checkout Berhasil</h2>
+    <p id="popup-text"></p>
+    <button onclick="closePopup()">Tutup</button>
+  </div>
+</div>
 
 <script src="script.js"></script>
 </body>
