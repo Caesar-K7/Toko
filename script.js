@@ -2,7 +2,7 @@
 const products = [
   { id: 1, name: "Hoodie Hitam", price: 150000, image: "img/hoodie.jpg", desc: "Hoodie premium bahan fleece", stock: 10 },
   { id: 2, name: "Kaos Oversize", price: 90000, image: "img/kaos.jpg", desc: "Kaos nyaman berwarna hitam cocok untuk kegiatan sehari-hari", stock: 15 },
-  { id: 3, name: "Celana Cargo", price: 120000, image: "img/celana.jpg", desc: "Celana keren", stock: 10 },
+  { id: 3, name: "Celana Cargo", price: 120000, image: "img/celana.jpg", desc: "Celana keren vesatile", stock: 10 },
   { id: 4, name: "Topi", price: 50000, image: "img/topi.jpg", desc: "Topi branded stylish", stock: 5 },
   { id: 5, name: "Jaket Denim", price: 200000, image: "img/jaket.jpg", desc: "Jaket kece berbahan denim", stock: 13 }
 ];
@@ -121,8 +121,8 @@ function checkout() {
   };
 
   showPopup(`
-    💳 ${paymentMap[payment]} <br>
-    🚚 ${shippingMap[shipping]}
+    ${paymentMap[payment]} <br>
+    ${shippingMap[shipping]}
   `);
 
   cart = [];
